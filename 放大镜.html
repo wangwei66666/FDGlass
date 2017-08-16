@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			/*全局reset*/
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			/*左侧div*/
+			#show{
+				width: 400px;
+				height: 400px;
+				position: relative;
+				border: 1px black solid;
+				background: url(small.jpg) no-repeat;
+				top: 0px;
+				left: 0;
+			}
+			/*整个覆盖div*/
+			#show #cover{
+				width: 400px;
+				height: 400px;
+				opacity: 0;
+				filter: alpha(opacity:0);
+				position: absolute;
+			}
+			/*方形透明区域*/
+			#show #check{
+				width: 220px;
+				height: 200px;
+				background: gainsboro;
+				opacity: 0.5;
+				filter: alpha(opacity:50);
+				position: absolute;
+				display: none;
+			}
+			/*右侧显示大图的div*/
+			#r_show{
+				width: 440px;
+				height: 400px;
+				position: absolute;
+				left: 410px;
+				top: 0px;
+				overflow: hidden;
+				border: 1px gainsboro solid;
+				display: none;
+			}
+			/*大图*/
+			#r_show #r_pic{
+				position: absolute;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function(){
+				//获取元素对象
+				var cover = document.getElementById("cover");
+				var r_show = document.getElementById("r_show");
+				var check = document.getElementById("check");
+				var rpic = document.getElementById("r_pic")
+				//鼠标移动事件
+				cover.onmousemove = function(e){
+					var om = window.event||e;
+					//获取鼠标位置
+					var oml = om.offsetX||om.layerX;
+					var omt = om.offsetY||om.layerY;
+					//设置放大的小块位置
+					var cl = oml-110;
+					var ct = omt-100;
+					if(cl<0){
+						cl = 0;
+					}
+					if(cl>180){
+						cl=180;
+					}
+					if(ct<0){
+						ct=0;
+					}
+					if(ct>200){
+						ct=200;
+					}
+					//将新值赋值回去
+					check.style.left = cl+'px';
+					check.style.top = ct+'px';
+					//图片在放大框中的位置
+					rpic.style.left = cl*(-2)+'px';
+					rpic.style.top = ct*(-2)+'px';
+				}
+				//鼠标移入事件
+				cover.onmouseover = function(){
+					r_show.style.display = 'block';
+					check.style.display = 'block';
+				}
+				//鼠标移出事件
+				cover.onmouseout = function(){
+					r_show.style.display = 'none';
+					check.style.display = 'none';
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<!--左侧div 400*400-->
+		<div id="show">
+			<!--透明方框 220*200-->
+			<div id="check"></div>
+			<!--用于覆盖的div 400*400-->
+			<div id="cover"></div>
+		</div>
+		<!--右侧div-->
+		<div id="r_show">
+			<!--大图  800*800-->
+			<img src="big.jpg" class="r_pic" id="r_pic"/>
+		</div>
+	</body>
+</html>
